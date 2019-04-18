@@ -50,3 +50,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+x64/Debug/
+x64/Debug DLL/
+x64/Release/
+x64/Release DLL/
