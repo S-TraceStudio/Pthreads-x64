@@ -1,0 +1,4 @@
+C:/SourceCode/S-Trace/Pthreads-x64/build/CMakeFiles/INSTALL.dir
+C:/SourceCode/S-Trace/Pthreads-x64/build/CMakeFiles/pthread-x64.dir
+C:/SourceCode/S-Trace/Pthreads-x64/build/CMakeFiles/ALL_BUILD.dir
+C:/SourceCode/S-Trace/Pthreads-x64/build/CMakeFiles/ZERO_CHECK.dir
