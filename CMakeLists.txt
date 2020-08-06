@@ -11,20 +11,19 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
 
-# add the Library
-# set(HEADER_FILES headers/*.h )
-# target_include_directories(pthreads-x64 PRIVATE headers/)
+# add custom target
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release;DebugDLL;ReleaseDLL" CACHE STRING "Available build-types: Debug, Release, DebugDLL and ReleaseDLL")
 
+# add the Library
 include_directories(headers)
 file(GLOB HEADER_FILES "headers/*.h" )
-#file(GLOB SOURCES_FILES "sources/*.c" )
 set(SOURCES_FILES sources/pthread.c )
 
 add_Library(pthreads-x64 ${SOURCES_FILES} )
 target_include_directories(pthreads-x64 PRIVATE ${HEADER_FILES})
 
 # add version number
-configure_file(headers/pthread.h.in pthread.h)
+configure_file(headers/pthread_base.h.in pthread_base.h)
 target_include_directories(pthreads-x64 PUBLIC "${PROJECT_BINARY_DIR}"  )
 
 # specify the C standard

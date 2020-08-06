@@ -40,7 +40,7 @@ cd build
 
 :: generate project files
 Set CMAKE_GEN= -G "Visual Studio 15 2017 Win64"
-Set CMAKE_CONFIGURATION_TYPE= -DCMAKE_CONFIGURATION_TYPES=Release;Debug
+Set CMAKE_CONFIGURATION_TYPE= -DCMAKE_CONFIGURATION_TYPES=Release;Debug;ReleaseDLL;DebugDLL
 cmake %CMAKE_GEN% %CMAKE_CONFIGURATION_TYPE% ..
 
 :: build projects
@@ -50,6 +50,16 @@ if %BUILD_STATUS%==0 echo Build success
 if not %BUILD_STATUS%==0  goto enderror
 
 msbuild "pthreads-x64.sln" /t:Rebuild /p:Configuration=Debug
+set BUILD_STATUS=%ERRORLEVEL%
+if %BUILD_STATUS%==0 echo Build success
+if not %BUILD_STATUS%==0  goto enderror
+
+msbuild "pthreads-x64.sln" /t:Rebuild /p:Configuration=DebugDLL
+set BUILD_STATUS=%ERRORLEVEL%
+if %BUILD_STATUS%==0 echo Build success
+if not %BUILD_STATUS%==0  goto enderror
+
+msbuild "pthreads-x64.sln" /t:Rebuild /p:Configuration=ReleaseDLL
 set BUILD_STATUS=%ERRORLEVEL%
 if %BUILD_STATUS%==0 echo Build success
 if not %BUILD_STATUS%==0  goto enderror
