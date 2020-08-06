@@ -44,12 +44,12 @@ Set CMAKE_CONFIGURATION_TYPE= -DCMAKE_CONFIGURATION_TYPES=Release;Debug
 cmake %CMAKE_GEN% %CMAKE_CONFIGURATION_TYPE% ..
 
 :: build projects
-msbuild "pthread-x64.sln" /t:Rebuild /p:Configuration=Release
+msbuild "pthreads-x64.sln" /t:Rebuild /p:Configuration=Release
 set BUILD_STATUS=%ERRORLEVEL%
 if %BUILD_STATUS%==0 echo Build success
 if not %BUILD_STATUS%==0  goto enderror
 
-msbuild "pthread-x64.sln" /t:Rebuild /p:Configuration=Debug
+msbuild "pthreads-x64.sln" /t:Rebuild /p:Configuration=Debug
 set BUILD_STATUS=%ERRORLEVEL%
 if %BUILD_STATUS%==0 echo Build success
 if not %BUILD_STATUS%==0  goto enderror
