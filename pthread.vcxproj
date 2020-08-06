@@ -94,7 +94,7 @@
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;./headers/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <PreprocessorDefinitions>__CLEANUP_C;WIN32;_TIMESPEC_DEFINED;PTW32_STATIC_LIB;NDEBUG;_WINDOWS;_USRDLL;PTW32_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\.\</AssemblerListingLocation>
@@ -135,7 +135,7 @@
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;./headers/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
       <PreprocessorDefinitions>__CLEANUP_C;WIN32;_TIMESPEC_DEFINED;PTW32_STATIC_LIB;NDEBUG;_WINDOWS;_USRDLL;PTW32_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\.\</AssemblerListingLocation>
@@ -176,7 +176,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;./headers/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>__CLEANUP_C;WIN32;_TIMESPEC_DEFINED;PTW32_STATIC_LIB;_DEBUG;_WINDOWS;_USRDLL;PTW32_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\.\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\.\pthread.pch</PrecompiledHeaderOutputFile>
@@ -218,7 +218,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;./headers/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>__CLEANUP_C;WIN32;_TIMESPEC_DEFINED;PTW32_STATIC_LIB;_DEBUG;_WINDOWS;_USRDLL;PTW32_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\.\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\.\pthread.pch</PrecompiledHeaderOutputFile>
@@ -252,21 +252,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="pthread.c" />
+    <ClCompile Include="sources\pthread.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="implement.h" />
-    <ClInclude Include="pthread.h" />
-    <ClInclude Include="sched.h" />
-    <ClInclude Include="semaphore.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="version.rc">
-      <Culture Condition="'$(Configuration)|$(Platform)'=='Release|x64'">0x0409</Culture>
-      <Culture Condition="'$(Configuration)|$(Platform)'=='Release DLL|x64'">0x0409</Culture>
-      <Culture Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">0x0409</Culture>
-      <Culture Condition="'$(Configuration)|$(Platform)'=='Debug DLL|x64'">0x0409</Culture>
-    </ResourceCompile>
+    <ClInclude Include="headers\context.h" />
+    <ClInclude Include="headers\implement.h" />
+    <ClInclude Include="headers\pthread.h" />
+    <ClInclude Include="headers\sched.h" />
+    <ClInclude Include="headers\semaphore.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -15,27 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pthread.c">
+    <ClCompile Include="sources\pthread.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="implement.h">
+    <ClInclude Include="headers\context.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pthread.h">
+    <ClInclude Include="headers\implement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sched.h">
+    <ClInclude Include="headers\pthread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="semaphore.h">
+    <ClInclude Include="headers\sched.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="version.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    <ClInclude Include="headers\semaphore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
