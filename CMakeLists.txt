@@ -12,8 +12,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
 
 # add the Library
-set(HEADER_FILES headers/)
-add_Library(pthread-x64 sources/ )
+set(HEADER_FILES headers/*.h )
+add_Library(pthread-x64 sources/*.c )
 target_include_directories(pthread-x64 PRIVATE ${HEADER_FILES})
 
 # add version number
