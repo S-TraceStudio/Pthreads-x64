@@ -17,7 +17,9 @@ option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
 
 include_directories(headers)
 file(GLOB HEADER_FILES "headers/*.h" )
-file(GLOB SOURCES_FILES "sources/*.c" )
+#file(GLOB SOURCES_FILES "sources/*.c" )
+set(SOURCES_FILES sources/pthread.c )
+
 add_Library(pthread-x64 ${SOURCES_FILES} )
 target_include_directories(pthread-x64 PRIVATE ${HEADER_FILES})
 
