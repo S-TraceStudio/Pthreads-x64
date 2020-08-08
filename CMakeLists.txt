@@ -38,10 +38,11 @@ add_compile_definitions(PTW32_STATIC_LIB)
 add_compile_definitions(_USRDLL)
 add_compile_definitions(PTW32_BUILD)
 
+# Preprocessor platform specific directives
 add_compile_definitions(WIN32)
 add_compile_definitions(_WINDOWS)
 
-#
+# Preprocessor specific directives
 add_compile_definitions($<$<CONFIG:Debug>:_DEBUG>)
 add_compile_definitions($<$<CONFIG:DebugDLL>:_DEBUG>)
 add_compile_definitions($<$<CONFIGRelease>:NDEBUG>)
