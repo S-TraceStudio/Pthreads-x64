@@ -11,8 +11,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
 
-# add custom target
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release;DebugDLL;ReleaseDLL" CACHE STRING "Available build-types: Debug, Release, DebugDLL and ReleaseDLL")
+# add custom build
+set(CMAKE_BUILD_TYPE "Debug;Release;DebugDLL;ReleaseDLL" CACHE STRING "Available build-types: Debug, Release, DebugDLL and ReleaseDLL")
 
 # add the Library
 include_directories(headers)
@@ -41,8 +41,11 @@ add_compile_definitions(PTW32_BUILD)
 add_compile_definitions(WIN32)
 add_compile_definitions(_WINDOWS)
 
-#target_compile_definitions(Debug PRIVATE _DEBUG)
-#target_compile_definitions(Release PRIVATE NDEBUG)
+#
+add_compile_definitions($<$<CONFIG:Debug>:_DEBUG>)
+add_compile_definitions($<$<CONFIG:DebugDLL>:_DEBUG>)
+add_compile_definitions($<$<CONFIGRelease>:NDEBUG>)
+add_compile_definitions($<$<CONFIG:ReleaseDLL>:NDEBUG>)
 
 # install
 install(FILES ${HEADER_FILES} DESTINATION include)
