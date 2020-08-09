@@ -51,8 +51,8 @@ add_compile_definitions($<$<CONFIG:Release>:NDEBUG>)
 add_compile_definitions($<$<CONFIG:ReleaseDLL>:NDEBUG>)
 
 # compile option
-target_compile_options(pthreads-x64 PRIVATE $<$<CONFIG:Debug>:/EHsc>)
-target_compile_options(pthreads-x64 PRIVATE $<$<CONFIG:DebugDLL>:/EHsc>)
+target_compile_options(pthreads-x64 PRIVATE $<$<CONFIG:Debug>:/EHsc /Zi /W3>)
+target_compile_options(pthreads-x64 PRIVATE $<$<CONFIG:DebugDLL>:/EHsc /Zi /W3>)
 
 
 
