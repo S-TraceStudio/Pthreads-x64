@@ -39,14 +39,25 @@ add_compile_definitions(_USRDLL)
 add_compile_definitions(PTW32_BUILD)
 
 # Preprocessor platform specific directives
-add_compile_definitions(WIN32)
-add_compile_definitions(_WINDOWS)
+if(MSVC)
+    add_compile_definitions(WIN32)
+    add_compile_definitions(_WINDOWS)
+endif()
 
 # Preprocessor specific directives
 add_compile_definitions($<$<CONFIG:Debug>:_DEBUG>)
 add_compile_definitions($<$<CONFIG:DebugDLL>:_DEBUG>)
-add_compile_definitions($<$<CONFIGRelease>:NDEBUG>)
+add_compile_definitions($<$<CONFIG:Release>:NDEBUG>)
 add_compile_definitions($<$<CONFIG:ReleaseDLL>:NDEBUG>)
+
+# compile option
+target_compile_options(pthreads-x64 PRIVATE $<$<CONFIG:Debug>:/EHsc>)
+target_compile_options(pthreads-x64 PRIVATE $<$<CONFIG:DebugDLL>:/EHsc>)
+
+
+
+
+
 
 # install
 install(FILES ${HEADER_FILES} DESTINATION include)
