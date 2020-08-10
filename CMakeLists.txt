@@ -39,14 +39,24 @@ add_compile_definitions(_USRDLL)
 add_compile_definitions(PTW32_BUILD)
 
 # Preprocessor platform specific directives
-add_compile_definitions(WIN32)
-add_compile_definitions(_WINDOWS)
+if(MSVC)
+    add_compile_definitions(WIN32)
+    add_compile_definitions(_WINDOWS)
+endif()
 
 # Preprocessor specific directives
 add_compile_definitions($<$<CONFIG:Debug>:_DEBUG>)
 add_compile_definitions($<$<CONFIG:DebugDLL>:_DEBUG>)
-add_compile_definitions($<$<CONFIGRelease>:NDEBUG>)
+add_compile_definitions($<$<CONFIG:Release>:NDEBUG>)
 add_compile_definitions($<$<CONFIG:ReleaseDLL>:NDEBUG>)
+
+# compile option
+if(MSVC)
+    target_compile_options(pthreads-x64 PRIVATE $<$<CONFIG:Debug>:/EHsc /Zi /W3 /WX- /Od /Gm- /RTC1 /MDd /GS /Gy- /Qpar /arch:SSE2 /fp:precise /Gr>)
+    target_compile_options(pthreads-x64 PRIVATE $<$<CONFIG:DebugDLL>:/EHsc /Zi /W3 /WX- /Od /Gm- /RTC1 /MDd /GS /Gy- /Qpar /arch:SSE2 /fp:precise /Gr>)
+    target_compile_options(pthreads-x64 PRIVATE $<$<CONFIG:Release>:/EHsc /Zi /W3 /WX- /O2 /Ob2 /GF /Gm- /MD /GS /Gy- /Qpar /arch:SSE2 /fp:precise /Gr>)
+    target_compile_options(pthreads-x64 PRIVATE $<$<CONFIG:ReleaseDLL>:/EHsc /Zi /W3 /WX- /O2 /Ob2 /GF /Gm- /MD /GS /Gy- /Qpar /arch:SSE2 /fp:precise /Gr>)
+endif()
 
 # install
 install(FILES ${HEADER_FILES} DESTINATION include)
