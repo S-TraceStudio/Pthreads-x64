@@ -66,13 +66,13 @@ stage('x64_Build')
                 dir("scripts") 
                 {
                     // build Sentry
-                    bat "buildPthread.bat"
+                    bat "buildPthreads.bat"
 
                     // create Install folder
-                    bat "installPthread.bat"
+                    bat "installPthreads.bat"
 
                     // compress and upoad to S3
-                    bat "compressAndUploadPthread.bat"
+                    bat "compressAndUploadPthreads.bat"
                 }
 
                 // Send x64 notifications WINDOWS BUILD SUCCESS
