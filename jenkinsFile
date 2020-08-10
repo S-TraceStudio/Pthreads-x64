@@ -1,0 +1,121 @@
+disableConcurrentBuilds()
+
+stage('Checkout') 
+{
+    node('master') 
+    {
+        withEnv(overrides: []) 
+        {
+            dir('') 
+            {
+                try
+                {
+                    if (fileExists('.git/config')) 
+                    {
+                        sh 'git clean -ffdx' // removes all the files not from git or untracked, or ignored
+                        sh 'git reset --hard' // reverts everything tracked by git to its original state
+                    }
+
+                    checkout scm
+                    sh 'git submodule update --init --recursive --progress'
+
+                    // get git commit ID
+                    env.GIT_COMMIT_VERSION = gitCommitVersion()
+                    echo "git commit version: ${env.GIT_COMMIT_VERSION}"
+
+                    // Send notifications CHECKOUT SUCCESS
+                    fallback = "Checkout : ${env.GIT_COMMIT_VERSION} "
+                    buildNumber = "Build <${env.BUILD_URL}| #${env.BUILD_NUMBER}> - Checkout"
+                    gitBranch = "${env.BRANCH_NAME}"
+                    gitCommit = "${env.GIT_COMMIT_VERSION}"
+
+                    notifyBuildOnSlack("STARTING BUILD",fallback,buildNumber,gitBranch,gitCommit,"#0000FF")
+
+                    stash 'source'
+                }
+                catch (ignored)
+                {
+                    // Send notifications CHECKOUT FAIL
+                    fallback = "Checkout : ${env.GIT_COMMIT_VERSION} "
+                    buildNumber = "Build <${env.BUILD_URL}| #${env.BUILD_NUMBER}> - Checkout"
+                    gitBranch = "${env.BRANCH_NAME}"
+                    gitCommit = "${env.GIT_COMMIT_VERSION}"
+                    notifyBuildOnSlack("CHECKOUT FAILURE",fallback,buildNumber,gitBranch,gitCommit,"#FF0000")
+
+                    error 'Checkout Failed'
+                }
+            }
+        }
+    }
+}
+
+stage('x64_Build') 
+{
+    node('windows-builder') 
+    {
+        withEnv(overrides: ['MSBUILD_PATH=C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\MSBuild\\15.0\\Bin\\MSBuild.exe', 'W32_CONFIG=Release']) 
+        {
+            try 
+            {
+                echo "Executing Slave Windows"
+                echo "Slave name : ${env.NODE_NAME}"
+
+                cleanWs()
+                unstash 'source'
+
+                dir("scripts") 
+                {
+                    // build Sentry
+                    bat "buildPthread.bat"
+
+                    // create Install folder
+                    bat "installPthread.bat"
+
+                    // compress and upoad to S3
+                    bat "compressAndUploadPthread.bat"
+                }
+
+                // Send x64 notifications WINDOWS BUILD SUCCESS
+                fallback = "Windows Build : ${env.GIT_COMMIT_VERSION} "
+                buildNumber = "Build <${env.BUILD_URL}| #${env.BUILD_NUMBER}> - Windows Build"
+                gitBranch = "${env.BRANCH_NAME}"
+                gitCommit = "${env.GIT_COMMIT_VERSION}"
+
+                notifyBuildOnSlack("WINDOWS BUILD SUCCESS",fallback,buildNumber,gitBranch,gitCommit,"#00FF00")
+            }
+            catch (ignored) 
+            {
+                // Send x64 failure notifications WINDOWS BUILD FAILURE
+                fallback = "Windows Build : ${env.GIT_COMMIT_VERSION} "
+                buildNumber = "Build <${env.BUILD_URL}| #${env.BUILD_NUMBER}> - Windows Build"
+                gitBranch = "${env.BRANCH_NAME}"
+                gitCommit = "${env.GIT_COMMIT_VERSION}"
+                notifyBuildOnSlack("WINDOWS BUILD FAILURE",fallback,buildNumber,gitBranch,gitCommit,"#FF0000")
+
+                error 'Windows Build Failed'
+            }
+        }
+    }
+}
+
+stage('BuildFinished') 
+{
+    node('master') 
+    {
+        withEnv(overrides: []) 
+        {
+            // get git commit ID
+            env.GIT_COMMIT_VERSION = gitCommitVersion()
+
+            // Send notifications BUILD FINISHED
+            fallback = "Build Finished : ${env.GIT_COMMIT_VERSION} "
+            buildNumber = "Build <${env.BUILD_URL}| #${env.BUILD_NUMBER}> - Build Succeeded"
+            gitBranch = "${env.BRANCH_NAME}"
+            gitCommit = "${env.GIT_COMMIT_VERSION}"
+
+            notifyBuildOnSlack("BUILD FINISHED",fallback,buildNumber,gitBranch,gitCommit,"#0000FF")
+
+            echo "finished"
+        }
+    }
+}
